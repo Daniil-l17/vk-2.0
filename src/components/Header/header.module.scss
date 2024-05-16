@@ -1,0 +1,14 @@
+
+
+.header{
+  @apply w-full flex justify-between px-10 gap-3 py-3 sticky top-0 bg-[#222222];
+}
+
+.logo_bg{
+  background-position: center;
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-image: url('./VK_logo.svg.png');
+}
