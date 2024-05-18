@@ -1,45 +1,44 @@
-import {Skeleton } from '@mantine/core';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppselector } from '../../hooks/useAppSelector';
-import { useAuth } from '../../redux/slice/authSlice';
+import { Bg } from '../../components/userProfileComponents/bg/Bg';
+import { ProfilePhoto } from '../../components/userProfileComponents/profilePhoto/ProfilePhoto';
+import { ProfilePrivate } from '../../components/userProfileComponents/profilePrivate/ProfilePrivate';
+import { ButtonProfile } from '../../components/userProfileComponents/buttonProfile/ButtonProfile';
+import { InfoUser } from '../../components/userProfileComponents/infoUser/InfoUser';
+import { useGetProfileQuery } from '../../redux/api/api';
+import { useEffect } from 'react';
 
 export default function UserProfile() {
   const { id } = useParams();
-  const user = useAppselector(useAuth);
-  console.log(id);
+  /*const user = useAppselector(useAuth);*/
+
+  const navigate = useNavigate();
+
+  const users = useAppselector(state => state.auth.user);
+
+  const { data, isLoading, error } = useGetProfileQuery(+id!);
+
+  useEffect(() => {
+    if (error) {
+      navigate('/');
+    }
+  }, [error]);
 
   return (
     <div className="w-full max-w-[1300px] px-4">
       <div className=" min-h-[350px] w-full rounded-2xl bg-[#222222]">
-        {user ? (
-          <div className="w-full h-[260px] bg-[#333] rounded-2xl"></div>
-        ) : (
-          <Skeleton width={`${100}%`} height={260} className="!rounded-2xl" visible={true} />
-        )}
+        <Bg isLoading={!isLoading} />
         <div className="flex justify-around items-center ">
           <div className="flex ml-8 w-full flex-1 ">
             <div className="w-[200px] relative ">
-              {/*           <div className=" absolute bottom-1 rounded-[50%] bg-[#4c4c4c] w-44 h-44"></div>*/}
-              <Skeleton
-                color="#5333"
-                className="!absolute !bottom-1 !rounded-[50%] !bg-[#4c4c4c] !w-44 !h-44"
-                visible={true}
-              />
+              <ProfilePhoto photo={data?.avatar} isLoading={!isLoading} />
             </div>
             <div className="flex w-full  max-w-[300px] mt-2 flex-col ">
-              <div className=" mt-4 flex gap-2 flex-col">
-                <Skeleton height={8} mt={6} radius="xl" />
-                <Skeleton height={8} mt={6} width="70%" radius="xl" />
-              </div>
-              {/*             <h2>Даниил Лукьянов</h2>
-              <p> Укажите информацию о себе</p>*/}
+              <InfoUser data={data} isLoading={!isLoading} />
             </div>
           </div>
           <div className=" w-52 mr-6">
-            <Skeleton height={25} mt={6} radius="xl" />
-            {/*           <Button radius="md" color="#333333" variant="filled">
-              Редактировать Профиль
-            </Button>*/}
+            <ButtonProfile isButoon={data?.id === users?.id} isLoading={!isLoading} />
           </div>
         </div>
       </div>
@@ -52,10 +51,7 @@ export default function UserProfile() {
         </div>
         <div className="flex-1 flex-col flex gap-4">
           <div className="bg-[#222222] flex items-center min-h-[80px] rounded-2xl ">
-            <div className="flex ml-6 flex-col gap-2 w-full">
-              <Skeleton height={10} mt={6} width="90%" radius="xl" />
-              <Skeleton height={10} mt={6} width="85%" radius="xl" />
-            </div>
+            <ProfilePrivate isLoading={!isLoading} />
           </div>
           <div className="bg-[#222222] min-h-[190px] rounded-2xl ">
             <h2>Друзья</h2>
