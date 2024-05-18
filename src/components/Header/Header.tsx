@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { useCreateUserMutation } from '../../redux/api/inject/auth';
+import { MainLoader } from '../Loading/MainLoader';
 
 const ModalAuth = lazy(() => import('../modal/Modal'));
 
@@ -19,27 +20,23 @@ export const Header = () => {
     email: '',
   });
 
-  
-  const fun = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const fun = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const [createuser,{isLoading}] = useCreateUserMutation()
+  const [createuser, { isLoading,data }] = useCreateUserMutation();
 
   const create = () => {
-    createuser(userInfo)
-  }
+    createuser({ ...userInfo, role: 'user',lastname: '' });
+  };
 
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
-    if(user){
-      close()
+    if (user) {
+      close();
     }
-  },[user])
-  
-  console.log(user);
-  
+  }, [user]);
 
   return (
     <header className={style.header}>
@@ -58,8 +55,15 @@ export const Header = () => {
         />
       </div>
       {opened && (
-        <Suspense fallback={<p>loading....</p>}>
-          <ModalAuth create={create} isLoading={isLoading} close={close} fun={fun} opened={opened} />
+        <Suspense fallback={<MainLoader />}>
+          <ModalAuth
+            id={data?.id}
+            create={create}
+            isLoading={isLoading}
+            close={close}
+            fun={fun}
+            opened={opened}
+          />
         </Suspense>
       )}
       {user ? (
