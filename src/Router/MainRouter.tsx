@@ -7,7 +7,7 @@ import { TiNews } from 'react-icons/ti';
 import { FaUserFriends } from 'react-icons/fa';
 
 export const Home = lazy(() => import('../page/Home/Home'));
-export const UserProfile = lazy(() => import('../page/userProfile/userProfile'));
+export const UserProfile = lazy(() => import('../page/userProfile/UserProfile'));
 
 const menu = [
   { title: 'моя страница', icon: <CgProfile className="text-2xl" />, link: '/5' },

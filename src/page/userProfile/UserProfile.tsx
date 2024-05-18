@@ -1,4 +1,4 @@
-import { Avatar, Button, Skeleton } from '@mantine/core';
+import {Skeleton } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { useAppselector } from '../../hooks/useAppSelector';
 import { useAuth } from '../../redux/slice/authSlice';
