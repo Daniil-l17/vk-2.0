@@ -12,7 +12,11 @@ export const Home = lazy(() => import('../page/Home/Home'));
 export const UserProfile = lazy(() => import('../page/userProfile/UserProfile'));
 
 const menu = [
-  { title: 'моя страница', icon: <CgProfile className="text-2xl" />, link: `/profile/${JSON.parse(localStorage.getItem('user')!).id}` },
+  {
+    title: 'моя страница',
+    icon: <CgProfile className="text-2xl" />,
+    link: `/profile/${JSON.parse(localStorage.getItem('user')!)?.id}`,
+  },
   { title: 'Новости', icon: <TiNews className="text-2xl" />, link: '/news' },
   { title: 'Друзья', icon: <FaUserFriends className="text-2xl" />, link: '/friend' },
 ] as const;
