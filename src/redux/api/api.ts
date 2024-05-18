@@ -13,18 +13,9 @@ export const api = createApi({
       query: () => '/users/posts'
     }),
     getProfile: builder.query<UserInfo,number>({
-      query: (id) => `/users/${id}`,
-      providesTags: () => ['Profile']
-    }),
-    updateProfile: builder.mutation<UserInfo,UserInfo>({
-      query: (body) => ({
-        url: `/users/${body.id}`,
-        method: 'PUT',
-        body,
-      }),
-      invalidatesTags: () => ['Profile']
+      query: (id) => `/users/${id}`
     })
   })
 })
 
-export const {useGetProfileQuery,useUpdateProfileMutation} = api
+export const {useGetProfileQuery} = api
