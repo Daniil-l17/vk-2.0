@@ -6,6 +6,8 @@ import { api } from "../api";
     email:string
     password:string
     name: string
+    role: 'user'
+    lastname:string
   }
 
 

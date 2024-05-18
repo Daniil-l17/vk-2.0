@@ -8,9 +8,11 @@ const ModalAuth = ({
   fun,
   opened,
   isLoading,
+  id,
   create,
 }: {
   close: () => void;
+  id:string | undefined
   fun: (e: React.ChangeEvent<HTMLInputElement>) => void;
   opened: boolean;
   isLoading: boolean;
@@ -24,7 +26,7 @@ const ModalAuth = ({
   useEffect(() => {
     if(!isLoading){
       if(user){
-        navigate(`/profile/${user.id}`)
+        navigate(`/profile/${id}`)
       } 
     }
   },[user])
